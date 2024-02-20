@@ -65,8 +65,21 @@ export const deleteUser = asyncHandler(async (req, res, next) => {
         }
 
         const deletedUser = await User.findByIdAndDelete(req.params.userId);
-        res.status(200).json(deletedUser);
+        res.status(200).json('User has been deleted');
     } catch (error) {
         next(error);
     }
 });
+
+
+export const signOut = asyncHandler(async(req, res, next) => { 
+    try {
+        res
+          .clearCookie('access_token')
+          .status(200)
+          .json('User has been signed out');
+      } catch (error) {
+        next(error);
+      }
+});
+

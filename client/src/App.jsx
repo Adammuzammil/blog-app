@@ -11,14 +11,16 @@ import Profile from "./pages/Profile";
 import Settings from "./components/Settings";
 import EditProfile from "./pages/EditProfile";
 import MyProfile from "./components/MyProfile";
+import CreatePost from "./components/CreatePost";
+import UpdatePost from "./pages/UpdatePost";
+import PostPage from "./pages/PostPage";
 
 const App = () => {
   return (
     <>
       <Routes>
-        <Route path="/editor" element={<Editor />} />
+        <Route path="/editor" element={<CreatePost />} />
         <Route path="/" element={<Layout />}>
-          <Route path="my-profile" element={<MyProfile />} />
           <Route path="settings" element={<Settings />}>
             <Route path="user/:id/edit-profile" element={<EditProfile />} />
           </Route>
@@ -27,8 +29,11 @@ const App = () => {
 
           <Route element={<PrivateRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/user/:id" element={<MyProfile />} />
+            <Route path="update-post/:postId" element={<UpdatePost />} />
           </Route>
-          <Route path="/user/:id" element={<Profile />} />
+          {/* <Route path="/user/:id" element={<Profile />} /> */}
+          <Route path="/post/:postslug" element={<PostPage />} />
         </Route>
       </Routes>
     </>

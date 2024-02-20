@@ -8,7 +8,7 @@ const UserNavigation = () => {
   const { userInfo } = useSelector((state) => state.user);
   return (
     <AnimationWrapper className="relative right-0 z-50">
-      <div className="bg-white absolute right-0 border border-grey w-60 duration-200 z-50">
+      <div className="bg-white absolute right-0 border border-grey w-60 duration-200 z-50 overflow-hidden">
         <Link
           to="editor"
           className="flex items-center gap-2 link md:hidden pl-8 py-4"

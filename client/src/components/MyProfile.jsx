@@ -4,7 +4,7 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import { Button, TextInput } from "flowbite-react";
+import { Button, Modal, TextInput } from "flowbite-react";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { app } from "../firebase";
@@ -15,7 +15,12 @@ import CustomToast from "./Toast";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import axios from "axios";
-import { updateUser } from "../redux/features/user/userSlice";
+import {
+  updateUser,
+  deleteUser,
+  signOut,
+} from "../redux/features/user/userSlice";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 const MyProfile = () => {
   const { userInfo } = useSelector((state) => state.user);
@@ -26,6 +31,7 @@ const MyProfile = () => {
   const [imageFileUploading, setImageFileUploading] = useState(false);
   const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
   const [updateUserError, setUpdateUserError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({});
   const filePickerRef = useRef();
 
@@ -103,6 +109,25 @@ const MyProfile = () => {
         formData
       );
       dispatch(updateUser(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDeleteUser = async () => {
+    setShowModal(false);
+    try {
+      const { data } = await axios.delete(`/api/user/delete/${userInfo._id}`);
+      dispatch(deleteUser(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSignout = async () => {
+    try {
+      const { data } = await axios.post("/api/user/signout");
+      dispatch(signOut(data));
     } catch (error) {
       console.log(error);
     }
@@ -191,9 +216,38 @@ const MyProfile = () => {
         </form>
 
         <div className="text-red-500 flex justify-between mt-5">
-          <span className="cursor-pointer">Delete Account</span>
-          <span className="cursor-pointer">Sign Out</span>
+          <span className="cursor-pointer" onClick={() => setShowModal(true)}>
+            Delete Account
+          </span>
+          <span className="cursor-pointer" onClick={handleSignout}>
+            Sign Out
+          </span>
         </div>
+
+        <Modal
+          show={showModal}
+          onClose={() => setShowModal(false)}
+          size="md"
+          popup
+        >
+          <Modal.Header />
+          <Modal.Body>
+            <div className="text-center">
+              <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+              <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                Are you sure you want to delete this account?
+              </h3>
+              <div className="flex justify-center gap-4">
+                <Button color="failure" onClick={handleDeleteUser}>
+                  {"Yes, I'm sure"}
+                </Button>
+                <Button color="gray" onClick={() => setShowModal(false)}>
+                  No, cancel
+                </Button>
+              </div>
+            </div>
+          </Modal.Body>
+        </Modal>
       </div>
     </>
   );

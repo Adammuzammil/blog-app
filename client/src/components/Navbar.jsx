@@ -64,17 +64,17 @@ const Navbar = () => {
 
           <button
             onClick={() => dispatch(toggleTheme())}
-            className="text-black"
+            className="text-black dark:text-white"
           >
             {theme === "light" ? <FaSun /> : <FaMoon />}
           </button>
 
           <Link
             to="/editor"
-            className="hidden md:flex md:items-center gap-2 link"
+            className="hidden md:flex md:items-center gap-2 link dark:text-white"
           >
             <LuFileEdit />
-            <p>Write</p>
+            <p className="dark:text-white">Write</p>
           </Link>
 
           {userInfo ? (

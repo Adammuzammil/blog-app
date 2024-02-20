@@ -20,6 +20,10 @@ const postSchema = new mongoose.Schema(
       type: String,
       default: 'https://entail.mayple.com/en-assets/mayple/62a1ff71f520bb785087f5b4_topmarketingblogs1_19f178343592408234a94f70c4bb9ad2_2000-1699776190264.jpg',
     },
+    category: {
+      type: String,
+      default: 'uncategorized',
+    },
     slug: {
       type: String,
       required: true,
