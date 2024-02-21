@@ -36,9 +36,6 @@ const PostPage = () => {
     );
   }
 
-  //65ceef6ddecc1cf44c798890
-  //
-
   return (
     <main className="p-3 flex flex-col max-w-7xl mx-auto min-h-screen">
       <h1 className="text-3xl mt-6 p-3 text-center font-gelasio max-w-2xl mx-auto lg:text-4xl">
@@ -59,7 +56,7 @@ const PostPage = () => {
         className="mt-7 p-3 w-full object-cover max-h-[450px] max-w-6xl mx-auto"
       />
 
-      <div className="flex justify-between p-3 border-b border-s-teal-500 mx-auto w-full max-w-6xl text-xs`">
+      <div className="flex justify-between items-center p-3 border-b border-s-teal-500 mx-auto w-full max-w-6xl text-xs`">
         <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
         <span>{post && post.content.length / 1000} mins read</span>
         {userInfo._id === post.user ? (
@@ -77,7 +74,7 @@ const PostPage = () => {
         className="p-3 max-w-6xl mx-auto w-full post-content"
         dangerouslySetInnerHTML={{ __html: post && post.content }}
       ></div>
-      <CommentCard postId={post._id} />
+      {post && <CommentCard postId={post._id} />}
     </main>
   );
 };
